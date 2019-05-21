@@ -3,6 +3,12 @@
 You've worked tirelessly to conceptualize, organize, and build your `express.js` app, so it's only right that you complete its development cycle by taking it to production! We will go through the steps of properly deploying your postgres/sequelize/express app. Please carefully read through this tutorial before you start hacking away.
 
 ## Pre-Deployment
+
+We will make some changes to our express app files in three locations: 
+1. `package.json`
+1. `models.js`
+1. `server.js` (only if you're using a `.env` file)
+
 ---
 
 ## **package.json**
@@ -82,7 +88,8 @@ Heroku generates a database url for your app when it's deployed. We need to add 
 
 You don't need to add a variable for `DATABASE_URL` in a `.env` file. This variable will be used and set up automatically by Heroku, so we only need to pass it into our database instance.
 
-## Using Environmental Variables
+## **server.js** 
+(If Necessary)
 
 **If you're not using .env variables for your express app, move on to the Create Heroku App section.**
 
@@ -181,4 +188,10 @@ There should be no errors in this step if your app's code has been debugged prop
 
 ## Post Deployment
 
-Your express app should be up and running on Heroku now. Navigate to your deployed app's link and check if it's reponding with json data from your RESTful endpoints.
+Your express app should be up and running on Heroku now. Navigate to your deployed app's link and check if it's responding with json data from your RESTful endpoints.
+
+#### A. Pushing Changes to Heroku
+
+- If you make additional changes to your app's code, you just need to `add, commit, push` to your repo's heroku `remote`. 
+
+- If you're using additional environmental variables in your `.env` file, make sure you use the `heroku config:set` command. Otherwise, Heroku won't recognize `process.env.SOME_VARIABLE` in your express files.
