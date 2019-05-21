@@ -2,11 +2,14 @@
 
 You've worked tirelessly to conceptualize, organize, and build your `express.js` app, so it's only right that you complete its development cycle by taking it to production! We will go through the steps of properly deploying your postgres/sequelize/express app. Please carefully read through this tutorial before you start hacking away.
 
+## Pre-Deployment
 ---
 
 ## **package.json**
 
-#### A. dependencies
+If you use `yarn` instead of `npm` as a package manager, please remember to delete the `yarn.lock` file from your express app directory before proceeding. Heroku deployment requires `npm` commands.
+
+#### A. Proper installation of Dependencies
 
 Your express app's `package.json` should have both `dependencies` and `devDependencies` sections:
 
@@ -17,6 +20,7 @@ Your express app's `package.json` should have both `dependencies` and `devDepend
 |`dependencies` | `devDependencies`|
 |-------------- | --------------|
 | Should contain **only** packages that are crucial to the core functionalities of your app. | Should contain **only** helper packages that makes your life easier as you're coding up your app. |
+| `npm install` | `npm install --save-dev` |
 | `express`, `morgan`, `body-parser`, `cors`, `dotenv`, `sequelize`, `pg` | `nodemon`, `eslint` |
 | `bcrypt`, `jsonwebtoken`, `passport`, `passport-jwt`, `passport-local` |  |
 
@@ -74,9 +78,42 @@ Heroku generates a database url for your app when it's deployed. We need to add 
       }
     );
   ```
- </details>
+  </details>
 
 You don't need to add a variable for `DATABASE_URL` in a `.env` file. This variable will be used and set up automatically by Heroku, so we only need to pass it into our database instance.
+
+## Using Environmental Variables
+
+**If you're not using .env variables for your express app, move on to the Create Heroku App section.**
+
+- <details>
+  <summary>If you're using `.env` variables to hide keys, tokens, and/or auth secrets, you need to make three additional changes to your express app files.</summary>
+
+  #### A. Install `dotenv`
+
+  The `dotenv` package allows you to use .env variables in your express app. Install this normally (not as a devDependency).
+
+  - `npm install dotenv`
+
+  #### B. Require `dotenv`
+
+  <img width="350" alt="dotenv config" src="https://user-images.githubusercontent.com/40147976/58135052-ed01cc00-7bf6-11e9-8c0e-0f3d68c85b21.png">
+
+  #### C. Add `.env` to your express app's `.gitignore`
+
+  Make sure your express app's `.gitignore` has entries for `.env`.
+
+  <img width="350" alt="git ignore env file" src="https://user-images.githubusercontent.com/40147976/58135713-7b774d00-7bf9-11e9-857d-b6ed39778542.png">
+
+  #### D. Don't Commit `.env` Files
+
+  You can double check if it's properly ignored with a `git status` check. 
+
+  | Correct | Incorrect |
+  | ------- | ------- |
+  | <img width="350" alt="ignoring env file" src="https://user-images.githubusercontent.com/40147976/58135518-d8263800-7bf8-11e9-97f4-7fd25bd9f860.png"> | <img width="350" alt="not ignoring env file" src="https://user-images.githubusercontent.com/40147976/58135517-d8263800-7bf8-11e9-9b7e-07e5a217b540.png"> |
+  | `.env` not tracked | `.env` is tracked |
+  </details>
 
 ---
 
@@ -100,7 +137,25 @@ Create a new database on Heroku with the following command. **Add your app's nam
 
 - `heroku addons:create heroku-postgresql:hobby-dev --app=my-app-name`
 
-#### D. Git Status, Add, Commit, and Push To Heroku
+#### D. Set Environmental Variables (If Necessary)
+
+- <details>
+  <summary>Follow this step only if you're using a `.env` file for your express app. Otherwise, move on to next step.</summary>
+
+  1. Navigate to your `.env` file in your code editor. We need to copy and paste each `.env` variable for our heroku config commands.
+
+  <img width="350" alt="Screen Shot 2019-05-21 at 1 45 26 PM" src="https://user-images.githubusercontent.com/40147976/58136131-ff7e0480-7bfa-11e9-9782-a51682f5a12c.png">
+
+  2. Set your `.env` variables for Heroku with the following command. Run this command for every environmental variable in your `.env` file!
+
+  - `heroku config:set EXPRESS_APP_MESSAGE='keep this to yourself'`
+
+  3. Go through your express files and make sure you're called the correct `.env` variable wherever you need to use them.
+
+  <img width="350" alt="string interpolating env variables" src="https://user-images.githubusercontent.com/40147976/58136140-04db4f00-7bfb-11e9-8a40-b651489aaf97.png">
+  </details>
+
+#### E. Git Status, Add, Commit, and Push To Heroku
 
 We're getting ready to push our code up to Heroku. When you ran `heroku create my-app` earlier, it automatically added a new remote named `heroku`. You can check this with `git remote -v`.
 
@@ -109,7 +164,7 @@ We're getting ready to push our code up to Heroku. When you ran `heroku create m
 1. `git commit -m 'prepping for heroku deployment'` 
 1. `git push heroku master`
 
-#### E. Sync and Seed Your Heroku Database
+#### F. Sync and Seed Your Heroku Database
 
 We told Heroku that our database is using postgresql. We now need to connect to Heroku's own terminal shell to `reset` and `seed` our deployed database.
 
