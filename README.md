@@ -1,14 +1,18 @@
-# Heroku Deployment Tutorial For `express(sequelize)` apps
+# Heroku Deployment For `express(sequelize)` Apps
+
+You've worked tirelessly to conceptualize, organize, and build your `express.js` app, so it's only right that you complete its development cycle by taking it to production! We will go through the steps of properly deploying your postgres/sequelize/express app. Please carefully read through this tutorial before you start hacking away.
+
+---
 
 ## **package.json**
 
-### A. dependencies
+#### A. dependencies
 
 Your express app's `package.json` should have both `dependencies` and `devDependencies` sections:
 
 <img width="350" alt="dependencies section" src="https://user-images.githubusercontent.com/40147976/58120614-98992500-7bd3-11e9-8246-7e46df3579f7.png">
 
-### B. dependencies vs. devDependencies
+#### B. dependencies vs. devDependencies
 
 |`dependencies` | `devDependencies`|
 |-------------- | --------------|
@@ -18,16 +22,18 @@ Your express app's `package.json` should have both `dependencies` and `devDepend
 
 Sectioning your dependencies is not specific to just express apps. You should differentiate necessary dependencies and dev dependencies for each of your `Node.js` apps (hint: `node_modules`).
  
-### C. Scripts
+#### C. Scripts
 
 1. Modify your `start` command to `node server.js`.
 1. Add `heorku-postbuild` command with `npm run build`.
 
 <img width="900" alt="scripts section" src="https://user-images.githubusercontent.com/40147976/58120631-a2228d00-7bd3-11e9-8bd6-c1255129358c.png">
 
+---
+
 ## **models.js**
 
-### A. Add Database URL To Sequelize DB Instance
+#### A. Add Database URL To Sequelize DB Instance
 
 Your current database object configuration is an argument passed into a new sequelize instance.
 
@@ -72,27 +78,29 @@ Heroku generates a database url for your app when it's deployed. We need to add 
 
 You don't need to add a variable for `DATABASE_URL` in a `.env` file. This variable will be used and set up automatically by Heroku, so we only need to pass it into our database instance.
 
+---
+
 ## **Heroku**
 
-### A. Create Heroku App
+#### A. Create Heroku App
 
 Navigate to your app's directory in your terminal shell, and run this command:
 
 - `heroku create my-app-name`
 
-### B. Set Buildpack
+#### B. Set Buildpack
 
 We're deploying a `node` app, so we should tell Heroku which buildpack to use with this command:
 
 - `heroku buildpacks:set heroku/nodejs`
 
-### C. Set Heroku Database To PostgreSQL
+#### C. Set Heroku Database To PostgreSQL
 
 Create a new database on Heroku with the following command. **Add your app's name for the `--app=` flag!**
 
 - `heroku addons:create heroku-postgresql:hobby-dev --app=my-app-name`
 
-### D. Git Status, Add, Commit, and Push To Heroku
+#### D. Git Status, Add, Commit, and Push To Heroku
 
 We're getting ready to push our code up to Heroku. When you ran `heroku create my-app` earlier, it automatically added a new remote named `heroku`. You can check this with `git remote -v`.
 
@@ -101,7 +109,7 @@ We're getting ready to push our code up to Heroku. When you ran `heroku create m
 1. `git commit -m 'prepping for heroku deployment'` 
 1. `git push heroku master`
 
-### E. Sync and Seed Your Heroku Database
+#### E. Sync and Seed Your Heroku Database
 
 We told Heroku that our database is using postgresql. We now need to connect to Heroku's own terminal shell to `reset` and `seed` our deployed database.
 
@@ -113,3 +121,9 @@ Once we're connected to Heroku's bash shell, we're going to run two commands. Ma
 1. `node seed.js`
 
 There should be no errors in this step if your app's code has been debugged properly when you started building up your app.
+
+---
+
+## Post Deployment
+
+Your express app should be up and running on Heroku now. Navigate to your deployed app's link and check if it's reponding with json data from your RESTful endpoints.
