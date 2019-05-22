@@ -57,6 +57,7 @@ Your express app's `package.json` should have both `dependencies` and `devDepend
 
 - Your app's needs versus your development needs.
 
+<br />
 |`dependencies` | `devDependencies`|
 |-------------- | --------------|
 | Packages that **your app** needs in order for it to be used by anyone. | Packages that **you** want/need so that it enhances your workflow as you debug your code |
@@ -64,6 +65,7 @@ Your express app's `package.json` should have both `dependencies` and `devDepend
 | `npm install` | `npm install --save-dev` |
 | `express`, `morgan`, `body-parser`, `cors`, `dotenv`, `sequelize`, `pg` | `nodemon`, `eslint` |
 | `bcrypt`, `jsonwebtoken`, `passport`, `passport-jwt`, `passport-local` |  |
+<br />
 
 - Differentiating dependencies is not specific to just express apps. You should specify app dependencies and dev dependencies for each of your `Node.js` apps (hint: `node_modules`).
 
@@ -177,10 +179,12 @@ Heroku generates a database url for your app when it's deployed. Now We need to 
 
 - You can double check if it's properly ignored with a `git status` check. 
 
+<br />
 | Correct | Incorrect |
 | ------- | ------- |
 | <img width="350" alt="ignoring env file" src="https://user-images.githubusercontent.com/40147976/58135518-d8263800-7bf8-11e9-97f4-7fd25bd9f860.png"> | <img width="350" alt="not ignoring env file" src="https://user-images.githubusercontent.com/40147976/58135517-d8263800-7bf8-11e9-9b7e-07e5a217b540.png"> |
 | `.env` is not ignored | `.env` is ignored |
+<br />
 
 </details>
 <br />
