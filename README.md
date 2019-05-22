@@ -180,6 +180,7 @@ Heroku generates a database url for your app when it's deployed. Now We need to 
 - You can double check if it's properly ignored with a `git status` check. 
 
 <br />
+
 | Correct | Incorrect |
 | ------- | ------- |
 | <img width="350" alt="ignoring env file" src="https://user-images.githubusercontent.com/40147976/58135518-d8263800-7bf8-11e9-97f4-7fd25bd9f860.png"> | <img width="350" alt="not ignoring env file" src="https://user-images.githubusercontent.com/40147976/58135517-d8263800-7bf8-11e9-9b7e-07e5a217b540.png"> |
