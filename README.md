@@ -2,31 +2,33 @@
 
 You've worked tirelessly to conceptualize, organize, and build your `express.js` app, so it's only right that you complete its development cycle by taking it to production! We will go through the steps of properly deploying your postgres/sequelize/express app. Please carefully read through this tutorial before you start hacking away.
 
+<br />
 <details>
 
 <summary> >>> Click Here Before Proceeding! <<< </summary>
 
 - There are numerous **clickable** drop down sections throughout this `README`. Pay careful attention to them for further instructions!
 
-- **Reminder:** This walkthrough is specifically for your backend express app. ~~IDGAF about your frontend client inside of this `README`.~~ You may have the same files for both backend and frontend directories, so be mindful to only modify the correct files.
+- **Reminder:** This walkthrough is specifically for your backend express app. ~~IDGAF about your frontend client inside of this `README`. xP :)~~ You may have the same files for both backend and frontend directories, so be mindful to only modify the correct files.
 
 </details>
+<br />
 
----
-
-## Pre-Deployment
-
----
+## **Pre-Deployment**
 
 Before we create a new Heroku app, we will start with making some changes to our express app files in three locations: 
+
 1. `package.json`
+
 1. `models.js`
+
 1. `server.js` (only if you're using a `.env` file)
 
 ---
+### **1. package.json**
+---
 
-## **1. package.json**
-
+<br />
 <details>
 
 <summary>Click here if you use yarn instead of npm to manage dependencies</summary>
@@ -40,6 +42,7 @@ Before we create a new Heroku app, we will start with making some changes to our
   2. If the above doesn't work, you can delete the `yarn.lock` file from your express app directory. You can always run `yarn install` to get it back. Though it may have side effects for package version control.
 
 </details>
+<br />
 
 #### A. Dependencies Section
 
@@ -47,6 +50,7 @@ Your express app's `package.json` should have both `dependencies` and `devDepend
 
 <img width="350" alt="dependencies section" src="https://user-images.githubusercontent.com/40147976/58120614-98992500-7bd3-11e9-8246-7e46df3579f7.png">
 
+<br />
 <details>
 
 <summary>What's the difference between dependencies and devDependencies?</summary>
@@ -64,6 +68,7 @@ Your express app's `package.json` should have both `dependencies` and `devDepend
 - Differentiating dependencies is not specific to just express apps. You should specify app dependencies and dev dependencies for each of your `Node.js` apps (hint: `node_modules`).
 
 </details>
+<br />
  
 #### B. Scripts Section
 
@@ -71,6 +76,7 @@ Your `scripts` section in your `package.json` should look like this:
 
 <img width="900" alt="scripts section" src="https://user-images.githubusercontent.com/40147976/58120631-a2228d00-7bd3-11e9-8bd6-c1255129358c.png">
 
+<br />
 <details>
 
 <summary>What to modify in your scripts section</summary>
@@ -82,15 +88,17 @@ Your `scripts` section in your `package.json` should look like this:
 1. Add a `heorku-postbuild` command with `npm run build`.
 
 </details>
+<br />
 
 ---
-
-## 2. **models.js**
+### 2. **models.js**
+---
 
 #### A. Add Database URL To Sequelize DB Instance
 
 Your current database object configuration is an argument passed into a new sequelize instance.
 
+<br />
 <details>
 
 <summary>Current database instance configuration:</summary>
@@ -108,11 +116,13 @@ Your current database object configuration is an argument passed into a new sequ
   );
 ```
 </details>
+<br />
 
 Heroku generates a database url for your app when it's deployed. Now We need to add another argument into our sequelize database instance.
 
 <img width="350" alt="db instance arguments" src="https://user-images.githubusercontent.com/40147976/58124808-17469000-7bdd-11e9-9810-26da80d45b38.png">
 
+<br />
 <details>
 
 <summary>New database instance configuration</summary>
@@ -134,13 +144,15 @@ Heroku generates a database url for your app when it's deployed. Now We need to 
 - You don't need to add a new environmental variable for `DATABASE_URL` in a `.env` file. This variable will be used and automatically set up by Heroku, so we only need to pass it into our sequelize database instance as an argument.
 
 </details>
+<br />
 
 ---
-
-## 3. **server.js** (if necessary)
+### 3. **server.js** (if necessary)
+---
 
 **If you're not using .env variables for your express app, move on to the Create Heroku App section.**
 
+<br />
 <details>
 
 <summary>If you're using `.env` variables to hide keys, tokens, and/or auth secrets, you need to make three additional changes to your express app:</summary>
@@ -174,9 +186,7 @@ Heroku generates a database url for your app when it's deployed. Now We need to 
 <br />
 
 ---
-
-## **Heroku**
-
+### **Heroku**
 ---
 
 #### A. Create Heroku App
@@ -199,31 +209,36 @@ Create a new database on Heroku with the following command. **Add your app's nam
 
 #### D. Set Environmental Variables (If Necessary)
 
-- <details>
+<br />
+<details>
 
-  <summary>Follow this step only if you're using a `.env` file for your express app. Otherwise, move on to next step.</summary>
+<summary>Follow this step only if you're using a `.env` file for your express app. Otherwise, move on to next step.</summary>
 
-  1. Navigate to your `.env` file in your code editor. We need to copy and paste each `.env` variable for our heroku config commands.
+1. Navigate to your `.env` file in your code editor. We need to copy and paste each `.env` variable for our heroku config commands.
 
-  <img width="350" alt="Screen Shot 2019-05-21 at 1 45 26 PM" src="https://user-images.githubusercontent.com/40147976/58136131-ff7e0480-7bfa-11e9-9782-a51682f5a12c.png">
+<img width="350" alt="Screen Shot 2019-05-21 at 1 45 26 PM" src="https://user-images.githubusercontent.com/40147976/58136131-ff7e0480-7bfa-11e9-9782-a51682f5a12c.png">
 
-  2. Set your `.env` variables for Heroku with the following command. Run this command for every environmental variable in your `.env` file!
+2. Set your `.env` variables for Heroku with the following command. Run this command for every environmental variable in your `.env` file!
 
-  - `heroku config:set EXPRESS_APP_MESSAGE='keep this to yourself'`
+- `heroku config:set EXPRESS_APP_MESSAGE='keep this to yourself'`
 
-  3. Go through your express files and make sure you're called the correct `.env` variable wherever you need to use them.
+3. Go through your express files and make sure you're called the correct `.env` variable wherever you need to use them.
 
-  <img width="350" alt="string interpolating env variables" src="https://user-images.githubusercontent.com/40147976/58136140-04db4f00-7bfb-11e9-8a40-b651489aaf97.png">
+<img width="350" alt="string interpolating env variables" src="https://user-images.githubusercontent.com/40147976/58136140-04db4f00-7bfb-11e9-8a40-b651489aaf97.png">
 
-  </details>
+</details>
+<br />
 
 #### E. Git Status, Add, Commit, and Push To Heroku
 
 We're getting ready to push our code up to Heroku. When you ran `heroku create my-app` earlier, it automatically added a new remote named `heroku`. You can check this with `git remote -v`.
 
 1. `git status`
+
 1. `git add`
+
 1. `git commit -m 'prepping for heroku deployment'` 
+
 1. `git push heroku master`
 
 #### F. Sync and Seed Your Heroku Database
@@ -235,16 +250,16 @@ We told Heroku that our database is using postgresql. We now need to connect to 
 Once we're connected to Heroku's bash shell, we're going to run two commands. Make sure you're specifying the correct filepath for your `resetDb.js` and `seed.js` files.
 
 1. `node resetDb.js`
+
 1. `node seed.js`
 
 There should be no errors in this step if your app's code has been debugged properly when you started building up your app.
+
+<br />
 <br />
 
 ---
-
 ## Post Deployment
-
----
 
 Your express app should be up and running on Heroku now. Navigate to your deployed app's link and check if it's responding with json data from your RESTful endpoints.
 
