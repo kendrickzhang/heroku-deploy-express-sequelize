@@ -33,13 +33,13 @@ Before we create a new Heroku app, we will start with making some changes to our
 
 <summary>Click here if you use yarn instead of npm to manage dependencies</summary>
 
-- If you use `yarn` instead of `npm` as a package manager, it will fail on build due to a `package-lock.json` and `yarn.lock` conflict. You have the following options to resolve this:
+If you use `yarn` instead of `npm` as a package manager, it will fail on build due to a `package-lock.json` and `yarn.lock` conflict. You have the following options to resolve this:
 
-  1. Temporarily remove `yarn.lock` from your `git` index so it doesn't get staged for commits with:
-      - `git rm yarn.lock && git commit -m 'excluded yarn.lock'`
-      - Remember to `git add yarn.lock` again when you need to push to github.
-      
-  2. If the above doesn't work, you can delete the `yarn.lock` file from your express app directory. You can always run `yarn install` to get it back. Though it may have side effects for package version control.
+1. Temporarily remove `yarn.lock` from your `git` index so it doesn't get staged for commits with:
+    - `git rm yarn.lock && git commit -m 'excluded yarn.lock'`
+    - Remember to `git add yarn.lock` again when you need to push to github.
+
+2. If the above doesn't work, you can delete the `yarn.lock` file from your express app directory. You can always run `yarn install` to get it back. Though it may have side effects for package version control.
 
 </details>
 <br />
@@ -58,6 +58,7 @@ Your express app's `package.json` should have both `dependencies` and `devDepend
 - Your app's needs versus your development needs.
 
 <br />
+
 |`dependencies` | `devDependencies`|
 |-------------- | --------------|
 | Packages that **your app** needs in order for it to be used by anyone. | Packages that **you** want/need so that it enhances your workflow as you debug your code |
